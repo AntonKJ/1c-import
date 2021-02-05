@@ -54,6 +54,8 @@ pass: rootpwd6421
 
 # Запускать без докера, нужно взять проект из папки src/sionik (все файлы)
 
+Переименовать ```/src/sionik/env``` в ```.env```
+
 в файле .env настройки БД 
 ```
 DB_DSN=mysql:host=mariadb;port=3306;dbname=sionik
