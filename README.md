@@ -50,6 +50,26 @@ Phpmyadmin
 login: root
 pass: rootpwd6421
 
+# Запускать без докера, нужно взять проект из папки src/sionik (все файлы)
+
+в файле .env настройки БД 
+```
+DB_DSN=mysql:host=mariadb;port=3306;dbname=sionik
+DB_USERNAME=root
+DB_PASSWORD=rootpwd6421
+DB_TABLE_PREFIX=
+DB_CHARSET=utf8mb4
+```
+
+для импорта в файле import/DB.php
+```
+  private const DB_HOST = 'mariadb';
+	private const DB_NAME = 'sionik';
+	private const DB_USER = 'root';
+	private const DB_PASS = 'rootpwd6421';
+```
+менять на свои
+
 # if not PDO Driver
 ```
 docker exec -it testsionik_php_1 su
