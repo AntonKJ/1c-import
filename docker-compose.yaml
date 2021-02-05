@@ -39,15 +39,3 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpwd6421
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    links: 
-      - mariadb:db
-    ports:
-      - 8765:80
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpwd6421
-      UPLOAD_LIMIT: 300000000
-    depends_on:
-      - mariadb
-
