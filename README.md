@@ -126,5 +126,11 @@ apt-get update && \
 
 #Module 'sodium' already loaded
 
-# RELOAD DOCKER-COMPOSE stop/up PAGE LOCALHOST/ ADMINPANEL 
+# RELOAD DOCKER-COMPOSE stop/up 
+
+Dashboard
+
+```
+localhost/adminpanel
+```
 
