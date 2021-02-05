@@ -1,0 +1,89 @@
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+<IfModule mod_rewrite.c>
+
+    # deal with admin first
+
+    RewriteCond %{REQUEST_URI} ^/(admin)
+
+    RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+
+    RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+
+    RewriteRule ^admin/img/(.*)$ backend/web/img/$1 [L]
+
+
+
+    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|css|img)/
+
+    RewriteCond %{REQUEST_URI} ^/(admin)
+
+    RewriteRule ^.*$ backend/web/index.php [L]
+
+
+
+    RewriteCond %{REQUEST_URI} ^/(assets|css|img)
+
+    RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+
+    RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+
+    RewriteRule ^img/(.*)$ frontend/web/img/$1 [L]
+    
+    RewriteRule ^player/(.*)$ frontend/web/player/$1 [L]
+
+    RewriteRule ^storage/(.*)$ storage/web/$1 [L]
+
+
+
+    RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|img)/
+
+    RewriteCond %{REQUEST_URI} !index.php
+
+    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^.*$ frontend/web/index.php
+
+</IfModule>
+
+# Если запрос начинается с /adminpanel, то заменяем на /backend/web/
+RewriteCond %{REQUEST_URI} ^/adminpanel
+RewriteRule ^adminpanel\/?(.*) /backend/web/$1
+
+# Добавляем другой запрос /frontend/web/$1
+RewriteCond %{REQUEST_URI} !^/(frontend/web|backend/web|adminpanel)
+RewriteRule (.*) /frontend/web/$1
+
+# Если frontend запрос
+RewriteCond %{REQUEST_URI} ^/frontend/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /frontend/web/index.php
+
+# Если backend запрос
+RewriteCond %{REQUEST_URI} ^/backend/web
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /backend/web/index.php
+
+# Если storage запрос
+RewriteCond %{REQUEST_URI} ^/storage/source
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /storage/web/source
+
+<IfModule mod_rewrite.c>
+
+    Options +FollowSymlinks
+
+    RewriteEngine On
+
+</IfModule>
+
+
+
+

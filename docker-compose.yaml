@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  app:
+    build: ./
+    volumes:
+      - ./src/sionik:/home/sionik
+    depends_on:
+      - mariadb
+
+  apache:
+    image: httpd:2.4
+    volumes:
+      - ./src/sionik:/home/sionik
+      - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    depends_on:
+      - php
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - 80:80
+    volumes:
+      - ./src/sionik:/home/sionik
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - apache
+
+  php:
+    image: php:7.4-fpm
+    volumes:
+      - ./src/sionik:/home/sionik
+      - ./phpini/php-ini:/usr/local/etc/php/custom.d
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd6421
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links: 
+      - mariadb:db
+    ports:
+      - 8765:80
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd6421
+      UPLOAD_LIMIT: 300000000
+    depends_on:
+      - mariadb
+
