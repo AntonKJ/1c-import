@@ -1,4 +1,4 @@
-# sionik-1c-import
+# SIONIK-1c-import
 
 http://test.sionic.ru/test.html
 
