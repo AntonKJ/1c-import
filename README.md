@@ -4,6 +4,8 @@ http://test.sionic.ru/test.html
 
 Выполнить docker-compose up -d из корневой папки проекта
 
+Переименовать /src/sionik/env в .env
+
 #Установка db_sionik из корневой папки проекта (testsionik название папки в которую сделаешь git clone)
 
 ```
