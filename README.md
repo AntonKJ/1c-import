@@ -8,10 +8,6 @@ http://test.sionic.ru/test.html
 
 cat db_sionik.sql | docker exec -i testsionik_mariadb_1 /usr/bin/mysql -u root --password=rootpwd6421 sionik
 
-http://localhost/adminpanel
-
-login: webmaster
-pass: webmaster
 
 #==================#IMPORT#==================#
 
@@ -24,6 +20,12 @@ bash import.sh
 > Data import completed successfully!
 
 #==================#END#==================#
+
+
+http://localhost/adminpanel
+
+login: webmaster
+pass: webmaster
 
 #if not PDO Driver
 docker exec -it testsionik_php_1 su
