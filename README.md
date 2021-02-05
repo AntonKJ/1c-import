@@ -2,18 +2,18 @@
 
 http://test.sionic.ru/test.html
 
-Выполнить docker-compose up -d из корневой папки проекта
+Выполнить ```docker-compose up -d``` из корневой папки проекта
 
-Переименовать /src/sionik/env в .env
+Переименовать ```/src/sionik/env``` в ```.env```
 
-#Установка db_sionik из корневой папки проекта (testsionik название папки в которую сделаешь git clone)
+#Установка db_sionik из корневой папки проекта (testsionik название папки изменится в которую сделаешь git clone)
 
 ```
 cat db_sionik.sql | docker exec -i testsionik_mariadb_1 /usr/bin/mysql -u root --password=rootpwd6421 sionik
 ```
 
 #==================#IMPORT#==================#
-
+```
 docker exec -it testsionik_app_1 su
 
 cd /home/sionik/import
@@ -21,14 +21,15 @@ cd /home/sionik/import
 bash import.sh 
 
 > Data import completed successfully!
-
+```
 #==================#END#==================#
 
 
 http://localhost/adminpanel
-
+```
 login: webmaster
 pass: webmaster
+```
 
 # If not DB errors
 
@@ -54,6 +55,8 @@ pass: rootpwd6421
 
 # Запускать без докера, нужно взять проект из папки src/sionik (все файлы)
 
+В папке ```/src/sionik/``` файлы проекта
+
 Переименовать ```/src/sionik/env``` в ```.env```
 
 в файле .env настройки БД 
@@ -73,6 +76,10 @@ DB_CHARSET=utf8mb4
 	private const DB_PASS = 'rootpwd6421';
 ```
 менять на свои
+```
+db_sionik.sql
+```
+в папке проекта 
 
 # if not PDO Driver
 ```
