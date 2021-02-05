@@ -27,6 +27,28 @@ http://localhost/adminpanel
 login: webmaster
 pass: webmaster
 
+# If not DB errors
+
+Добавить в docker-compose.yaml в конце 
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links: 
+      - mariadb:db
+    ports:
+      - 8765:80
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd6421
+      UPLOAD_LIMIT: 300000000
+    depends_on:
+      - mariadb
+
+http://localhost:8765
+
+Phpmyadmin 
+login: root
+pass: rootpwd6421
+
 # if not PDO Driver
 docker exec -it testsionik_php_1 su
 docker-php-ext-install pdo_mysql
