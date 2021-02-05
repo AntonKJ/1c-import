@@ -4,7 +4,7 @@ http://test.sionic.ru/test.html
 
 Выполнить docker-compose up -d из корневой папки проекта
 
-#Установка db mysql из корневой папки проекта
+#Установка db mysql из корневой папки проекта (testsionik название папки в которую сделаешь git clone)
 
 cat db_sionik.sql | docker exec -i testsionik_mariadb_1 /usr/bin/mysql -u root --password=rootpwd6421 sionik
 
