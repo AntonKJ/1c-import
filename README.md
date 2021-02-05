@@ -27,7 +27,7 @@ http://localhost/adminpanel
 login: webmaster
 pass: webmaster
 
-#if not PDO Driver
+# if not PDO Driver
 docker exec -it testsionik_php_1 su
 docker-php-ext-install pdo_mysql
 #or
@@ -43,7 +43,7 @@ docker exec -it testsionik_app_1 su
 
  console/yii rbac-migrate
 
-#if exception Message format 'date' is not supported. You have to install PHP intl extension to use this feature.
+# if exception Message format 'date' is not supported. You have to install PHP intl extension to use this feature.
 docker exec -it testsionik_php_1 su
 apt-get -y update \
     && apt-get install -y libicu-dev\
@@ -64,5 +64,5 @@ apt-get update && \
 
 #Module 'sodium' already loaded
 
-RELOAD PAGE LOCALHOST/ ADMINPANEL
+# RELOAD DOCKER-COMPOSE stop/up PAGE LOCALHOST/ ADMINPANEL 
 
