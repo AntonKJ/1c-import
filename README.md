@@ -30,7 +30,7 @@ pass: webmaster
 # If not DB errors
 
 Добавить в docker-compose.yaml в конце 
-
+```
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links: 
@@ -42,7 +42,7 @@ pass: webmaster
       UPLOAD_LIMIT: 300000000
     depends_on:
       - mariadb
-
+```
 http://localhost:8765
 
 Phpmyadmin 
