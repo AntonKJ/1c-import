@@ -90,7 +90,7 @@ docker-php-ext-install pdo_mysql
 
 # for add BD не обязательно если установилась  БД 
 ```
-docker exec -it testsionik_app_1 su
+docker exec -it app su
 cd /home/sionik
 php console/yii help
 
