@@ -6,15 +6,15 @@ http://test.sionic.ru/test.html
 
 Переименовать ```/src/sionik/env``` в ```.env```
 
-#Установка db_sionik из корневой папки проекта (testsionik название папки изменится в которую сделаешь git clone)
+#Установка db_sionik из корневой папки проекта 
 
 ```
-cat db_sionik.sql | docker exec -i testsionik_mariadb_1 /usr/bin/mysql -u root --password=rootpwd6421 sionik
+cat db_sionik.sql | docker exec -i mariadb /usr/bin/mysql -u root --password=rootpwd6421 sionik
 ```
 
 #==================#IMPORT#==================#
 ```
-docker exec -it testsionik_app_1 su
+docker exec -it app su
 
 cd /home/sionik/import
 
@@ -83,11 +83,8 @@ db_sionik.sql
 
 # if not PDO Driver
 ```
-docker exec -it testsionik_php_1 su
+docker exec -it php su
 docker-php-ext-install pdo_mysql
-#or
-docker-compose exec testsionik_php_1 docker-php-ext-install pdo_mysql
-docker-compose exec testsionik_php_1 docker-php-ext-install intl
 ```
 #docker-compose reload 
 
@@ -103,7 +100,7 @@ php console/yii rbac-migrate
 ```
 # if exception Message format 'date' is not supported. You have to install PHP intl extension to use this feature.
 ```
-docker exec -it testsionik_php_1 su
+docker exec -it php su
 apt-get -y update \
     && apt-get install -y libicu-dev\
     && docker-php-ext-configure intl \
