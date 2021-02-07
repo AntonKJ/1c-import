@@ -5,7 +5,7 @@ class DB
 {
     private static $_instance = null;
     private $db;
-    // для безопасности настройки лучше хранить в файле с конфигом
+
     private const DB_HOST = 'mariadb';
 	private const DB_NAME = 'sionik';
 	private const DB_USER = 'root';

@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "goods".
- * @property integer $id
+ * @property integer $key_map
  * @property string $code
  * @property string $naimenovanie
  * @property string $count_in_city

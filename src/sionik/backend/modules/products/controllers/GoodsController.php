@@ -33,7 +33,8 @@ class GoodsController extends Controller
      */
     public function actionIndex()
     {
-        $goods = new Goods();
+        $goods = new Goods;
+
 
         $this->performAjaxValidation($goods);
 
@@ -43,19 +44,15 @@ class GoodsController extends Controller
         $searchModel = new GoodsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $categories = Goods::find()->groupBy(['code', 'city_id'])->all();
-        $categories = ArrayHelper::map($categories, 'code', 'naimenovanie');
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $goods,
-            'categories' => $categories,
         ]);
     }
 
     /**
-     * @param integer $code
+     * @param integer $id
      *
      * @return mixed
      */

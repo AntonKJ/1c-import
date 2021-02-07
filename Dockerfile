@@ -10,12 +10,11 @@ RUN apt-get update && apt-get install -y \
 	libonig-dev \
 	libpq-dev \
 	zlib1g-dev \
-	g++ \
         wget \
         git \
             --no-install-recommends
 
-RUN docker-php-ext-install zip exif \
+RUN docker-php-ext-install pdo pdo_mysql zip exif \
 	&& docker-php-ext-configure gd \
 	&& docker-php-ext-install gd 
 
@@ -37,19 +36,6 @@ RUN usermod -u 1000 www-data
 VOLUME /root/.composer
 
 WORKDIR /home/sionik
-
-RUN apt-get -y update \
-    && apt-get install -y libicu-dev\
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl
-
-RUN apt-get update && \
-    apt-get install -y \
-        zlib1g-dev libpng-dev\
-    && docker-php-ext-install gd
-
-
-
 
 EXPOSE 9000
 CMD ["php-fpm"]

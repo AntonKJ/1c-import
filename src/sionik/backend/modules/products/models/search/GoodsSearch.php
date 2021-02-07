@@ -37,7 +37,7 @@ class GoodsSearch extends Goods
      */
     public function search($params)
     {
-        $query = Goods::find()->groupBy(['code', 'city_id']);
+        $query = Goods::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -1,4 +1,11 @@
 <?php
+//
+//"TRUNCATE ` city `"
+// TRUNCATE `import`;
+// TRUNCATE `offers`;
+// TRUNCATE `prices`;
+// DROP TABLE `goods`;
+//
 
 include 'DB.php';
 use Database\DB;
@@ -6,11 +13,13 @@ use Database\DB;
     $dbClass = new DB();
     $db = $dbClass->getDb();
 
-    $count_files_offers = 1; // Колличество файлов предложений отсканировать
-    $count_files_import = 1; // Колличество файлов импорта отсканировать
+    $count_files_offers = 7; // Количество файлов предложений отсканировать
+    $count_files_import = 7; // Количество файлов импорта отсканировать
+    $count_offers_in_to_file = 50; // Количество предложений в файле отсканировать
+
     $status_city = 1;
     $strtotime = date('Y-m-d H:i:s');
-    $LIMIT = 50;
+    $LIMIT = $count_offers_in_to_file;
 
     // OFFERS XMLS
     for($io=0; $io<$count_files_offers; $io++) {
@@ -43,10 +52,12 @@ use Database\DB;
 /*                  var_dump($name);
                   var_dump($id1c);*/
 
-            $result = $db->query("SELECT COUNT(*) FROM `city` Where name = '{$name}' or id = '{$city_id}'");
+            $city_id_1c_xml = $city_id;
+
+            $result = $db->query("SELECT COUNT(*) FROM `city` Where id = '{$city_id}'");
 
             if ((int)$result->fetchColumn() > 0) {
-                $idpt = $db->prepare("UPDATE `city` SET id=:id,name=:name,id1c=:id1c,status=:status,datetime=:datetime");
+                $idpt = $db->prepare("UPDATE `city` SET id=:id,name=:name,id1c=:id1c,status=:status,datetime=:datetime Where id= '{$city_id}'");
             } else {
                 $idpt = $db->prepare("INSERT INTO `city` (id,name,id1c,status,datetime) VALUES (:id,:name,:id1c,:status,:datetime)");
             }
@@ -67,23 +78,25 @@ use Database\DB;
             $name_item = (string)$item->Наименование  ?? '';
             $articul = (string)$item->Артикул  ?? '';
             $base_id = json_encode($item->БазоваяЕдиница)  ?? '';
+            $city_id = $city_id_1c_xml  ?? '';
             $code_item = (string)$item->Код ?? '' ;
             $quantity = (string)$item->Количество ?? '' ;
             $datetime = $strtotime;
 
-            $result = $db->query("SELECT COUNT(*) FROM `offers` Where code = '" . $code_item . "'");
+            $result = $db->query("SELECT COUNT(*) FROM `offers` Where code = '" . $code_item . "' and city_id = '{$city_id}'");
 
             if ((int)$result->fetchColumn() > 0) {
                 $idpo = $db->prepare("UPDATE `offers` SET id1c=:id1c, articul=:articul,
      naimenovanie=:naimenovanie,
      base_id=:base_id,
+     city_id=:city_id,
      code=:code,
      quantity=:quantity,
-     datetime=:datetime Where code = '{$code_item}'");
+     datetime=:datetime Where code = '{$code_item}' and city_id = '{$city_id}'");
 
             } else {
-                $query = "INSERT INTO offers (id1c, articul, naimenovanie, base_id, code, quantity, datetime) 
-        VALUES ( :id1c, :articul, :naimenovanie, :base_id, :code, :quantity, :datetime)";
+                $query = "INSERT INTO offers (id1c, articul, naimenovanie, base_id, city_id, code, quantity, datetime) 
+        VALUES ( :id1c, :articul, :naimenovanie, :base_id, :city_id, :code, :quantity, :datetime)";
                 $idpo = $db->prepare($query);
             }
 
@@ -92,6 +105,7 @@ use Database\DB;
             $idpo->bindParam(':articul', $articul);
             $idpo->bindParam(':naimenovanie', $name_item);
             $idpo->bindParam(':base_id', $base_id);
+            $idpo->bindParam(':city_id', $city_id);
             $idpo->bindParam(':code', $code_item);
             $idpo->bindParam(':quantity', $quantity);
             $idpo->bindParam(':datetime', $datetime);
@@ -105,8 +119,9 @@ use Database\DB;
                 $unit_price = (string)$prices->ЦенаЗаЕдиницу  ?? '';
                 $currency = (string)$prices->Валюта  ?? '';
                 $performance = (string)$prices->Представление  ?? '';
+                $city_id = $city_id_1c_xml  ?? '';
                 $с_price = (string)$prices->Коэффициент  ?? '';
-                $id_offer = (string)$item->Ид ?? '';
+                $id_offer = (string)$id_1c_price_offer ?? '';
 
 
                 $result = $db->query("SELECT COUNT(*) FROM `prices` Where id_offer = '" . $id_offer . "' and price_type_id = '" . $price_type_id . "'");
@@ -115,13 +130,13 @@ use Database\DB;
                     $idpp = $db->prepare("UPDATE prices SET price_type_id=:price_type_id, unit_price=:unit_price,
      currency=:currency,
      performance=:performance,
+     city_id=:city_id,
      coffee=:coffee,
      id_offer=:id_offer,
      datetime=:datetime Where price_type_id = '{$price_type_id}'");
-
                 } else {
-                    $query = "INSERT INTO prices (price_type_id, unit_price, currency, performance, coffee, id_offer, datetime) 
-VALUES ( :price_type_id, :unit_price, :currency, :performance, :coffee, :id_offer, :datetime)";
+                    $query = "INSERT INTO prices (price_type_id, unit_price, currency, performance, city_id, coffee, id_offer, datetime) 
+VALUES ( :price_type_id, :unit_price, :currency, :performance, :city_id, :coffee, :id_offer, :datetime)";
                     $idpp = $db->prepare($query);
                 }
 
@@ -129,6 +144,7 @@ VALUES ( :price_type_id, :unit_price, :currency, :performance, :coffee, :id_offe
                 $idpp->bindParam(':unit_price', $unit_price);
                 $idpp->bindParam(':currency', $currency);
                 $idpp->bindParam(':performance', $performance);
+                $idpp->bindParam(':city_id', $city_id);
                 $idpp->bindParam(':coffee', $с_price);
                 $idpp->bindParam(':id_offer', $id_offer);
                 $idpp->bindParam(':datetime', $strtotime);
@@ -142,8 +158,6 @@ VALUES ( :price_type_id, :unit_price, :currency, :performance, :coffee, :id_offe
             }
         }
     }
-
-exit();
 
     // IMPORT XMLS
     for($ii=0; $ii<$count_files_import; $ii++) {
@@ -170,15 +184,18 @@ exit();
             $name = htmlspecialchars(stripcslashes((string)$city->Наименование)) ?? '';
             $id1c = (string)$city->ИдКлассификатора ?? '';
             $status = $status;
+
             $city_id = $id ?? '';
             /*        var_dump($id);
                     var_dump($name);
                     var_dump($id1c);*/
 
-            $result = $db->query("SELECT COUNT(*) FROM `city` Where name = '{$name}' or id = '{$city_id}'");
+            $city_id_1c_xml = $city_id;
+
+            $result = $db->query("SELECT COUNT(*) FROM `city` Where id = '{$city_id}'");
 
             if ((int)$result->fetchColumn() > 0) {
-                $idpt = $db->prepare("UPDATE `city` SET id=:id,name=:name,id1c=:id1c,status=:status,datetime=:datetime");
+                $idpt = $db->prepare("UPDATE `city` SET id=:id,name=:name,id1c=:id1c,status=:status,datetime=:datetime Where id= '{$city_id}' ");
             } else {
                 $idpt = $db->prepare("INSERT INTO `city` (id,name,id1c,status,datetime) VALUES (:id,:name,:id1c,:status,:datetime)");
             }
@@ -216,15 +233,16 @@ exit();
             $chinese_title = (string)$item->КитайскоеНазвание ?? '';
             $additional_articules = json_encode($item->ДополнительныеАртикулы) ?? '';
             $date_of_expected_arrival = json_encode($item->ДатаОжидаемогоПрихода) ?? '';
-            $comment = (string)$item->Комментарий;
+            $comment = (string)$item->Комментарий ?? '';
             $datetime = $strtotime;
 
-            $result = $db->query("SELECT COUNT(*) FROM `import` Where code = '" . (string)$item->Код . "'");
+            $result = $db->query("SELECT COUNT(*) FROM `import` Where code = '" . (string)$item->Код . "'  and city_id = '{$city_id}'");
 
             if ((int)$result->fetchColumn() > 0) {
                 $idpi = $db->prepare("UPDATE `import` SET id1c=:id1c, shortcode=:shortcode,
  articul=:articul,
  naimenovanie=:naimenovanie,
+ base_id=:base_id,
  groups_import=:groups_import,
  description=:description,
  valuepropertys=:valuepropertys,
@@ -240,7 +258,7 @@ exit();
  additional_articules=:additional_articules,
  date_of_expected_arrival=:date_of_expected_arrival,
  comment=:comment,
- datetime=:datetime Where code = '{$code_item}'");
+ datetime=:datetime Where code = '{$code_item}' and city_id = '{$city_id}'");
 
             } else {
                 $query = "INSERT INTO import (id1c, shortcode, articul, naimenovanie, base_id, groups_import, description, valuepropertys, tax_rates, value_of_requisites, code, city_id, weight,  stamps , expected_arrival, english_title, chinese_title, additional_articules, date_of_expected_arrival, comment, datetime) 
@@ -279,6 +297,31 @@ exit();
         }
     }
 
+    // CREATE VIEW FOR GOODS
+    $query = "CREATE OR REPLACE VIEW goods AS SELECT ofs.id, ofs.code as code, ofs.naimenovanie,
+     CONCAT((SELECT count(*) FROM offers ofs1 Where ofs1.city_id = imp.city_id and ofs1.code=imp.code),
+     (SELECT count(*) FROM import imp1 Where imp1.city_id = imp.city_id and imp1.code=imp.code)) as count_in_city,
+     (SELECT pc.unit_price FROM prices pc Where pc.city_id=imp.city_id and pc.id_offer=ofs.id1C LIMIT 1) as price_in_city,
+      imp.city_id, imp.weight, ofs.id1c 
+                                                FROM offers ofs,import imp
+                                                WHERE ofs.code=imp.code
+                                                ";
+    $db->beginTransaction();
+    $db->exec($query);
+    $result = $db->commit();
+    $status_view = '';
+    if ($result) {
+        print_r("Create view OK!
+        ");
+        $status_view = true;
+    } else {
+        print_r("Create view FALSE
+        ");
+        $status_view = false;
+        $db->rollBack();
+    }
 
-
-
+if ($status_view) {
+    echo "Data import completed successfully!
+";
+}

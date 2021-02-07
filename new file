@@ -1,0 +1,9 @@
+https://www.shellcheck.net/
+
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
+    && docker-php-ext-install pdo_mysql \
+
+RUN apt-get -y update \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl

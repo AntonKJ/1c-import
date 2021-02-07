@@ -2,6 +2,7 @@ version: '3'
 
 services:
   app:
+    container_name: app
     build: ./
     volumes:
       - ./src/sionik:/home/sionik
@@ -9,6 +10,7 @@ services:
       - mariadb
 
   apache:
+    container_name: apache
     image: httpd:2.4
     volumes:
       - ./src/sionik:/home/sionik
@@ -17,6 +19,7 @@ services:
       - php
 
   nginx:
+    container_name: nginx
     image: nginx:1.13
     ports:
       - 80:80
@@ -27,19 +30,20 @@ services:
       - apache
 
   php:
-    image: php:7.4-fpm
+    container_name: php
+    image: php:7.2-fpm
     volumes:
       - ./src/sionik:/home/sionik
-      - ./phpini/php-ini:/usr/local/etc/php/custom.d
-    environment:
-      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+      - ./phpini/php-ini/php.ini:/usr/local/etc/php/conf.d/php.ini
 
   mariadb:
+    container_name: mariadb
     image: mariadb:10.5
     environment:
       MYSQL_ROOT_PASSWORD: rootpwd6421
 
   phpmyadmin:
+    container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     links: 
       - mariadb:db
