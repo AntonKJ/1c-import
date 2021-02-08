@@ -47,6 +47,7 @@ apt-get -y update \
 ```
 #or 
 ```
+docker exec -it php su
 docker-php-ext-install intl
 ```
 #if gd not available 
