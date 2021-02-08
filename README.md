@@ -1,19 +1,20 @@
 http://test.sionic.ru/test.html
 
-Выполнить docker-compose up -d из корневой папки проекта
+Выполнить ```docker-compose up -d``` из корневой папки проекта
 
-переименовать  src/sionik/env в .env
+переименовать  ```src/sionik/env``` в ```.env```
 
 #Установка db mysql из корневой папки проекта
+```
 cat db_sionik.sql | docker exec -i mariadb /usr/bin/mysql -u root --password=rootpwd6421 sionik
-
+```
 http://localhost/adminpanel
 
 login: webmaster
 pass: webmaster
 
 #==================#IMPORT#==================#
-
+```
 docker exec -it app su
 
 cd /home/sionik/import
@@ -21,18 +22,18 @@ cd /home/sionik/import
 sh import.sh -i yes
 
 > Data import completed successfully!
-
+```
 #==================#END#==================#
 
 #if not PDO Driver
 ```
-docker exec -it testsionik_php_1 su
+docker exec -it php su
 docker-php-ext-install pdo_mysql
 ```
 #or
 ```
-docker-compose exec testsionik_php_1 docker-php-ext-install pdo_mysql
-docker-compose exec testsionik_php_1 docker-php-ext-install intl
+docker-compose exec php docker-php-ext-install pdo_mysql
+docker-compose exec php docker-php-ext-install intl
 ```
 #docker-compose reload 
 
