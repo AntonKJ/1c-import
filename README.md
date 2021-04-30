@@ -1,4 +1,4 @@
-http://test.sionic.ru/test.html
+
 
 Выполнить ```docker-compose up -d``` из корневой папки проекта
 
@@ -59,7 +59,6 @@ apt-get update && \
         zlib1g-dev libpng-dev\
     && docker-php-ext-install gd
 ```
-#Module 'sodium' already loaded
 
 RELOAD PAGE LOCALHOST/ ADMINPANEL
 
