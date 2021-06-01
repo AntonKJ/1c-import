@@ -1,5 +1,10 @@
+Импорт и сопоставление по городам базы товаров из 1С
+Бухгалтерия, Yii2 Aootstrap  Admin Panel AdminLTE
 
+Запуск 
+import.sh в папке import
 
+Установка
 Выполнить ```docker-compose up -d``` из корневой папки проекта
 
 переименовать  ```src/sionik/env``` в ```.env```
@@ -8,6 +13,10 @@
 ```
 cat db_sionik.sql | docker exec -i mariadb /usr/bin/mysql -u root --password=rootpwd6421 sionik
 ```
+```
+composer update
+```
+
 http://localhost/adminpanel
 
 login: webmaster
