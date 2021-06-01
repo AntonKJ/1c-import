@@ -14,7 +14,7 @@ import.sh в папке import
 cat db_sionik.sql | docker exec -i mariadb /usr/bin/mysql -u root --password=rootpwd6421 sionik
 ```
 ```
-composer update
+composer install
 ```
 
 http://localhost/adminpanel
