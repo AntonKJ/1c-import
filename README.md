@@ -1,5 +1,5 @@
 Импорт и сопоставление по городам базы товаров из 1С
-Бухгалтерия, Yii2 Aootstrap  Admin Panel AdminLTE
+Бухгалтерия, Yii2 Bootstrap  Admin Panel AdminLTE
 
 Запуск 
 import.sh в папке import
