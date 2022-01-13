@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 # Install modules
 RUN apt-get update && apt-get install -y \
@@ -9,10 +9,10 @@ RUN apt-get update && apt-get install -y \
 	libzip-dev \
 	libonig-dev \
 	libpq-dev \
+	libpng-dev \
 	zlib1g-dev \
         wget \
-        git \
-            --no-install-recommends
+        git 
 
 RUN docker-php-ext-install pdo pdo_mysql zip exif \
 	&& docker-php-ext-configure gd \
@@ -35,7 +35,7 @@ RUN usermod -u 1000 www-data
 
 VOLUME /root/.composer
 
-WORKDIR /home/sionik
+WORKDIR /home/naftan
 
 EXPOSE 9000
 CMD ["php-fpm"]
